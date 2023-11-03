@@ -1,0 +1,1 @@
+<?php $RDS_URL='192.168.0.79'; $RDS_DB='testdb'; $RDS_user='testuser'; $RDS_pwd='Test123!'; ?>
