@@ -14,7 +14,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // GitHub 저장소에서 소스 코드 체크아웃
-                git branch: 'main', url: 'https://github.com/hee-bin/k8s_proj.git'
+                git branch: 'main', url: 'https://github.com/kolion98/TestWeb.git'
             }
         }
       
@@ -39,8 +39,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                  dir('/home/ubuntu/dev/TestWeb') {
-                    def kubeconfigPath = '/home/ubuntu/dev/TestWeb/nh-pro-nks_kubeconfig.yaml'
+                  dir('/home/ubuntu/dev/TestWeb/cicd') {
+                    def kubeconfigPath = '/home/ubuntu/dev/TestWeb/cicd/nh-pro-nks_kubeconfig.yaml'
                     // KUBECONFIG 환경 변수 설정 (등호 양 옆에 공백이 없도록 주의)
                     withEnv(["KUBECONFIG=$kubeconfigPath"]) {
                         // Kubernetes 클러스터에 Deployment 적용
