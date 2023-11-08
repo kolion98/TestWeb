@@ -29,13 +29,10 @@ pipeline {
         stage('Build & Push Docker Images') {
             steps {
               script {
-
-
-                dir('/home/ubuntu/dev/TestWeb') {                  
-                    sh 'sudo docker build -t $DOCKER_IMAGENAME:$IMAGE_TAG .'
-                    sh 'sudo docker tag $DOCKER_IMAGENAME:$IMAGE_TAG $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
-                    sh 'sudo docker push $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
-                }
+                sh 'sudo cd /home/ubuntu/dev/TestWeb'                  
+                sh 'sudo docker build -t $DOCKER_IMAGENAME:$IMAGE_TAG .'
+                sh 'sudo docker tag $DOCKER_IMAGENAME:$IMAGE_TAG $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
+                sh 'sudo docker push $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
               }
             }
         }
@@ -43,14 +40,13 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                  dir('/home/ubuntu/dev/TestWeb/cicd') {
+                    sh 'sudo cd /home/ubuntu/dev/TestWeb/cicd' 
                     def kubeconfigPath = '/home/ubuntu/dev/TestWeb/cicd/nh-pro-nks_kubeconfig.yaml'
                     // KUBECONFIG 환경 변수 설정 (등호 양 옆에 공백이 없도록 주의)
                     withEnv(["KUBECONFIG=$kubeconfigPath"]) {
                         // Kubernetes 클러스터에 Deployment 적용
-                        sh 'kubectl apply -f testweb-deployment.yaml'
+                        sh 'sudo kubectl apply -f testweb-deployment.yaml'
                     }
-                  }
                 }
             }
         }
