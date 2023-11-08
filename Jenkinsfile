@@ -45,7 +45,7 @@ pipeline {
                     // KUBECONFIG 환경 변수 설정 (등호 양 옆에 공백이 없도록 주의)
                     withEnv(["KUBECONFIG=$kubeconfigPath"]) {
                         // Kubernetes 클러스터에 Deployment 적용
-                        sh 'sudo kubectl apply -f /home/ubuntu/dev/TestWeb/cicd/testweb-deployment.yaml'
+                        sh 'kubectl apply -f /home/ubuntu/dev/TestWeb/cicd/testweb-deployment.yaml'
                     }
                 }
             }
