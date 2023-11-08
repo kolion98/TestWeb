@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'nhncloud-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "docker login $NCR_REPOSITORY -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"                            
+                        sh "sudo docker login $NCR_REPOSITORY -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"                            
                     }
                 }
             }
@@ -32,9 +32,9 @@ pipeline {
 
 
                 dir('/home/ubuntu/dev/TestWeb') {                  
-                    sh 'docker build -t $DOCKER_IMAGENAME:$IMAGE_TAG .'
-                    sh 'docker tag $DOCKER_IMAGENAME:$IMAGE_TAG $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
-                    sh 'docker push $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
+                    sh 'sudo docker build -t $DOCKER_IMAGENAME:$IMAGE_TAG .'
+                    sh 'sudo docker tag $DOCKER_IMAGENAME:$IMAGE_TAG $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
+                    sh 'sudo docker push $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
                 }
               }
             }
