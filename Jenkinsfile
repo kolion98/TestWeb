@@ -5,8 +5,6 @@ pipeline {
         // 환경 변수 설정
         NCR_REPOSITORY = '0c0aedbf-kr1-registry.container.nhncloud.com/nh-reg'
         DOCKER_IMAGENAME = 'nh-web'
-        DOCKER_USERNAME = 'credentials("nhncloud-credentials").username'
-        DOCKER_PASSWORD = 'credentials("nhncloud-credentials").password'
         IMAGE_TAG = 'latest'
     }
 
@@ -20,13 +18,19 @@ pipeline {
       
         stage('Docker Login') {
             steps {
-                sh "docker login $NCR_REPOSITORY -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'nhncloud-credentials', passwordVariable: 'DOCKER_USERNAME', usernameVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login $NCR_REPOSITORY -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"                            
+                    }
+                }
             }
         }
 
         stage('Build & Push Docker Images') {
             steps {
               script {
+
+
                 dir('/home/ubuntu/dev/TestWeb') {                  
                     sh 'docker build -t $DOCKER_IMAGENAME:$IMAGE_TAG .'
                     sh 'docker tag $DOCKER_IMAGENAME:$IMAGE_TAG $NCR_REPOSITORY/$DOCKER_IMAGENAME:$IMAGE_TAG'
