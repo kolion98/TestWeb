@@ -5,8 +5,8 @@ pipeline {
         // 환경 변수 설정
         NCR_REPOSITORY = '0c0aedbf-kr1-registry.container.nhncloud.com/nh-reg'
         DOCKER_IMAGENAME = 'nh-web'
-        DOCKER_USERNAME = credentials('nhncloud-credentials').username
-        DOCKER_PASSWORD = credentials('nhncloud-credentials').password
+        DOCKER_USERNAME = 'credentials("nhncloud-credentials").username'
+        DOCKER_PASSWORD = 'credentials("nhncloud-credentials").password'
         IMAGE_TAG = 'latest'
     }
 
